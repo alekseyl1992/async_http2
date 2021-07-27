@@ -1,14 +1,13 @@
 //! lib.rs
 
 use pyo3::prelude::*;
-use std::sync::Arc;
 use std::collections::HashMap;
 use pyo3::exceptions;
 use std::time::Duration;
 
 #[pyclass]
 struct Client {
-    client: Arc<reqwest::Client>,
+    client: reqwest::Client,
 }
 
 #[pymethods]
@@ -28,7 +27,7 @@ impl Client {
         };
 
         Ok(Client {
-            client: Arc::from(client)
+            client
         })
     }
 
@@ -46,6 +45,7 @@ impl Client {
                 Err(e) => return Err(PyErr::new::<exceptions::PyValueError, _>(
                     format!("Request send failed: {}", e.to_string()))),
             };
+            assert_eq!(resp.version(), reqwest::Version::HTTP_2);
 
             let body = match resp.text().await {
                 Ok(t) => t,
