@@ -1,0 +1,10 @@
+/target
+Cargo.lock
+
+.idea/
+*.pyc
+__cache__/
+.pytest_cache/
+*.pyd
+*.dll
+*.so
