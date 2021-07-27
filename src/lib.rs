@@ -14,8 +14,11 @@ struct Client {
 #[pymethods]
 impl Client {
     #[new]
-    pub fn new(timeout: u64) -> PyResult<Self> {
+    pub fn new(timeout: u64, accept_invalid_certs: bool) -> PyResult<Self> {
         let client = match reqwest::Client::builder()
+            .use_rustls_tls()
+            .tls_built_in_root_certs(true)
+            .danger_accept_invalid_certs(accept_invalid_certs)
             .http2_prior_knowledge()
             .timeout(Duration::from_secs(timeout))
             .build() {
