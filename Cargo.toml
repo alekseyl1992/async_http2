@@ -11,6 +11,5 @@ crate-type = ["cdylib"]
 pyo3 = { version = "0.13", features = ["extension-module"] }
 pyo3-asyncio = { version = "0.13", features = ["tokio-runtime"] }
 tokio = "1.4"
-reqwest = { version = "0.11", features = ["json", "__rustls"] }
+reqwest = { version = "0.11", features = ["__rustls", "rustls-tls-native-roots"] }
 h2 = "0.3.3"
-futures = { version = "0.3.8" }

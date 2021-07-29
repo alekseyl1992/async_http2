@@ -14,7 +14,7 @@ def main():
     shutil.copy(SOURCE_LIB, TARGET_PATH)
 
     from async_http2 import Client
-    client = Client(timeout=60, accept_invalid_certs=False)
+    client = Client(timeout=60)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(work(client))
