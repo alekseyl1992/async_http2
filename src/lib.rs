@@ -16,7 +16,10 @@ struct Client {
 #[pymethods]
 impl Client {
     #[new]
-    pub fn new(timeout: u64, accept_invalid_certs: bool) -> PyResult<Self> {
+    pub fn new(py: Python, timeout: u64, accept_invalid_certs: bool) -> PyResult<Self> {
+        pyo3_asyncio::try_init(py)?;
+        pyo3_asyncio::tokio::init_multi_thread_once();
+
         let client = match reqwest::Client::builder()
             .use_rustls_tls()
             .tls_built_in_root_certs(true)
@@ -129,11 +132,6 @@ create_exception!(async_http2, RetryError, pyo3::exceptions::PyException);
 
 #[pymodule]
 fn async_http2(py: Python, m: &PyModule) -> PyResult<()> {
-    pyo3_asyncio::try_init(py)?;
-    // Tokio needs explicit initialization before any pyo3-asyncio conversions.
-    // The module import is a prime place to do this.
-    pyo3_asyncio::tokio::init_multi_thread_once();
-
     m.add_class::<Client>()?;
     m.add("TimeoutError", py.get_type::<TimeoutError>())?;
     m.add("ConnectError", py.get_type::<ConnectError>())?;
