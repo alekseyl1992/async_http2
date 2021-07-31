@@ -17,7 +17,7 @@ async def work(client):
     resp_data = await client.get('http://localhost:1010', {
         'fast': '1',
     })
-    print(resp_data)
+    logging.info(resp_data)
 
 
 if __name__ == '__main__':
