@@ -1,7 +1,13 @@
 [package]
 name = "async_http2"
+description = "asyncio-compatible HTTP2 client for Python based on `reqwest` Rust crate and pyo3/pyo3-asyncio"
+authors = ["alekseyl@list.ru"]
 version = "0.1.0"
 edition = "2018"
+license = "MIT"
+keywords = ["python", "http2", "asyncio"]
+readme = "README.md"
+repository = "https://github.com/alekseyl1992/async_http2"
 
 [lib]
 name = "async_http2"
@@ -11,5 +17,5 @@ crate-type = ["cdylib"]
 pyo3 = { version = "0.13", features = ["extension-module"] }
 pyo3-asyncio = { version = "0.13", features = ["tokio-runtime"] }
 tokio = "1.4"
-reqwest = { version = "0.11", features = ["__rustls", "rustls-tls-native-roots"] }
+reqwest = { version = "0.11", features = ["rustls-tls-native-roots"], default-features = false }
 h2 = "0.3.3"
